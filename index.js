@@ -57,7 +57,7 @@ const writeReadMeFile = data => {
             // if everything went well, resolve the Promise and send the successful data to the .then() method
             resolve({
                 ok: true,
-                message: console.log('Success! Navigate to the "dist" folder to see your README!')
+                message: console.log('Success! Navigate to the "Generated" folder to see your README!')
             });
         })
     })
@@ -70,12 +70,14 @@ const writeReadMeFile = data => {
 //   }
 
 // TODO: Create a function to initialize app
-const grabFromUser = () => {
-    inquirer.prompt(questionsArray).then((answers) => {
-        console.log(answers);
-        writeReadMeFile(answers.userFileName, answers);
-      })
-  }
-
+const init = () => {
+    return inquirer.prompt(questionsArray);
+}
 // Function call to initialize app
-grabFromUser();
+init()
+.then(userInput => {
+    return generateMarkdown(userInput);
+})
+.then(readmeInfo => {
+    return writeReadMeFile(readmeInfo);
+})
