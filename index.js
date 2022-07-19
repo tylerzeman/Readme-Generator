@@ -27,88 +27,51 @@ const questionsArray = [
     {
       message: `What did you want to name this html file?`,
       name: 'userFileName',
-      default: 'index',
-    }
+      default: 'readME',
+    },
+    {
+        message: `What are the instructions for installation?`,
+        name: 'install',
+      },
+      {
+        message: `What is the usage of this project?`,
+        name: 'usage',
+      },
+      {
+        message: `Who are the contributors of this project?`,
+        name: 'contributors',
+      }
   ]
 
 // TODO: Create a function to write README file
-const writeReadMeFile = (userFileName, fileData) => {
-    fileName = `${userFileName}.md`;
-    fileData = `
-    #
+const writeReadMeFile = data => {
+    return new Promise((resolve, reject) => {
+        // make a readme file and add to dist folder
+        fs.writeFile('./Generated/README.md', data, err => {
+            // if there's an error, reject the Promise and send the error to .catch() method
+            if (err) {
+                reject (err);
+                // return out of the function here to make sure the Promise doesn't continut to execute the resolve() function
+                return;
+            }
+            // if everything went well, resolve the Promise and send the successful data to the .then() method
+            resolve({
+                ok: true,
+                message: console.log('Success! Navigate to the "dist" folder to see your README!')
+            });
+        })
+    })
+}
 
 
-
-
-
-
-
-
-
-
-
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
-      <title>Billy</title>
-    </head>
-    <body>
-      <div style="overflow: hidden;height: 50px;"> <!-- For Demo, Represents the body -->
-        <nav>
-          <a href="#" class="brand">
-            <span>About Me Page</span>
-          </a>
-          <!-- responsive-->
-          <input id="bmenub" type="checkbox" class="show">
-          <label for="bmenub" class="burger pseudo button">menu</label>
-          <div class="menu">
-            <a href="https://www.youtube.com/watch?v=o-YBDTqX_ZU" class="button">Fun</a>
-          </div>
-        </nav>
-      </div>
-      <div class="flex one six-800">
-        <section class="full third-800">
-          <h1>${fileData.userName}</h1>
-          <h3>${fileData.userGithub}</h3>
-        </section>
-        <p class="full two-third-800">${fileData.userDesc}</p>
-      </div>
-    
-      <article class="card">
-        <header>
-          <h3>LinkedIn URL</h3>
-        </header>
-        <footer>
-          <a href="${fileData.linkedInURL}" class="button">Link</a>
-        </footer>
-      </article>
-      <article class="card">
-      <header>
-        <h3>GitHub URL</h3>
-      </header>
-      <footer>
-        <a href="${fileData.githubURL}" class="button">Link</a>
-      </footer>
-    </article>
-    </body>
-    </html>
-    `
-    fs.writeFile(fileName, fileData, (err) =>
-      err ? console.err(err) : console.log(fileData)
-    );
-  }
-
-
+// const writeReadMeFile = (README, fileData) => {
+//     fileName = `${README}.md`;
+//     fs.writeFile(fileName, fileData);
+//   }
 
 // TODO: Create a function to initialize app
 const grabFromUser = () => {
-    inquirer
-      .prompt(questionsArray)
-      .then((answers) => {
+    inquirer.prompt(questionsArray).then((answers) => {
         console.log(answers);
         writeReadMeFile(answers.userFileName, answers);
       })
