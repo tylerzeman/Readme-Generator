@@ -42,11 +42,10 @@ const questionsArray = [
         name: 'contributors',
       }
   ]
-
 // TODO: Create a function to write README file
 const writeReadMeFile = data => {
     return new Promise((resolve, reject) => {
-        // make a readme file and add to dist folder
+        // make a readme file and add to Generated folder
         fs.writeFile('./Generated/README.md', data, err => {
             // if there's an error, reject the Promise and send the error to .catch() method
             if (err) {
@@ -61,13 +60,7 @@ const writeReadMeFile = data => {
             });
         })
     })
-}
-
-
-// const writeReadMeFile = (README, fileData) => {
-//     fileName = `${README}.md`;
-//     fs.writeFile(fileName, fileData);
-//   }
+} // Unsure why it's not writing any feedback would be appreciated.
 
 // TODO: Create a function to initialize app
 const init = () => {
